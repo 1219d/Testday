@@ -1,0 +1,23 @@
+输入一个链表，从尾到头开始进行打印
+
+class Solution {
+public:
+    vector<int> printListFromTailToHead(ListNode* head)
+    {
+        vector<int> v;
+        stack<int> a;
+        ListNode* cur=head;
+        for(;cur!=NULL;cur=cur->next)
+        {
+           a.push(cur->val);
+        }
+        int num;
+        while(!a.empty())
+        {
+            num=a.top();
+            v.push_back(num);
+            a.pop();
+        }
+        return v;
+    }
+};
