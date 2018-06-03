@@ -1,0 +1,60 @@
+复杂链表的复制
+
+
+class Solution {
+public:
+    RandomListNode* CloneNodeEx(int label)
+    //创建新的结点
+ {
+     RandomListNode* newnode=( RandomListNode*)malloc(sizeof( RandomListNode));
+     newnode->label=label;
+     newnode->random=NULL;
+     newnode->next=NULL;
+     return newnode;
+ }
+
+    RandomListNode* Clone(RandomListNode* pHead)
+    {
+        if(pHead==NULL)
+        {
+            return NULL;
+        }
+        RandomListNode* cur=pHead;
+        //先将n`的元素插入到n的后面
+         for(;cur!=NULL;cur=cur->next->next)
+         {
+             RandomListNode* newnode=CloneNodeEx(cur->label);
+             newnode->next=cur->next;
+             cur->next=newnode;
+         }
+        for(cur=pHead;cur!=NULL;cur=cur->next->next)
+        //复制random指针的指向
+        {
+            if(cur->random==NULL)
+            {
+                cur->next->random=NULL;
+                continue;
+            }
+            cur->next->random=cur->random->next;
+        }
+        RandomListNode*  newhead=NULL;
+        RandomListNode*  newtail=NULL;
+        //使链表分离
+        for(cur=pHead;cur!=NULL;cur=cur->next)
+        {
+            RandomListNode* to_delete=cur->next;
+            cur->next=to_delete->next;
+                if(newhead==NULL)
+                {
+                    newhead=newtail=to_delete;
+                }
+                else
+                {
+                    newtail->next=to_delete;
+                    newtail=newtail->next;
+                }
+            }
+           return newhead;
+       }
+};
+
